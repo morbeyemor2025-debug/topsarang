@@ -55,7 +55,7 @@ export default function SetupPage() {
     // Create salon
     const { data: salon, error: salonErr } = await supabase
       .from("salons")
-      .insert({ name: salonName.trim(), slug, phone: phone.trim() || null, city: city.trim() || "Dakar" })
+      .insert({ name: salonName.trim(), slug, phone: phone.trim() || null, city: city.trim() || "Dakar", country: "Senegal" })
       .select()
       .single();
 
