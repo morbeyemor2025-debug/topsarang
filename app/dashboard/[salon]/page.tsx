@@ -53,11 +53,13 @@ export default function DashboardPage({ params }: Props) {
       .from("barbers").select("*").eq("salon_id", salonData.id).order("name");
     setBarbers(barbersData ?? []);
 
-    const { data: ticketsData } = await supabase
+    const { data: ticketsData, error: ticketsErr } = await supabase
       .from("queue_tickets").select("*")
       .eq("salon_id", salonData.id)
-      .in("status", ["waiting", "called"])
+      .neq("status", "served")
+      .neq("status", "cancelled")
       .order("ticket_number", { ascending: true });
+    if (ticketsErr) console.error("tickets error:", ticketsErr);
     setTickets(ticketsData ?? []);
     setLoading(false);
 
